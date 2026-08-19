@@ -4,20 +4,51 @@
     {
         private static void Main(string[] args)
         {
-            Cliente cliente1 = new(1, "David", "Hernández", "600123456", "david@mail.com", DateTime.Now);
+            List<Cliente> clientes = new List<Cliente>();
+            bool salir = false;
 
-            List<Cliente> clientes = new();
-            clientes.Add(cliente1);
-
-            Cliente cliente2 = new Cliente(2, "Laura", "Gómez", "611987654", "laura@mail.com", DateTime.Now);
-            clientes.Add(cliente2);
-
-            foreach (Cliente c in clientes)
+            while (!salir)
             {
-                Console.WriteLine(c);
-            }
+                Console.WriteLine("\n--- Gestor de Clientes ---");
+                Console.WriteLine("1. Alta de cliente");
+                Console.WriteLine("2. Listar clientes");
+                Console.WriteLine("3. Modificar cliente");
+                Console.WriteLine("4. Baja de cliente");
+                Console.WriteLine("5. Salir");
+                Console.Write("Elige una opción: ");
 
-            Console.WriteLine($"La lista tiene {clientes.Count} cliente(s).");
+                string opcion = Console.ReadLine();
+
+                switch (opcion)
+                {
+                    case "1":
+                        Console.Write("Nombre: ");
+                        string nombre = Console.ReadLine();
+
+                        Console.Write("Apellidos: ");
+                        string apellidos = Console.ReadLine();
+
+                        Console.Write("Teléfono: ");
+                        string telefono = Console.ReadLine();
+
+                        Console.Write("Email: ");
+                        string email = Console.ReadLine();
+
+                        Cliente nuevoCliente = new Cliente(clientes.Count + 1, nombre, apellidos, telefono, email, DateTime.Now);
+                        clientes.Add(nuevoCliente);
+
+                        Console.WriteLine("Cliente añadido correctamente.");
+                        break;
+
+                    case "5":
+                        salir = true;
+                        break;
+
+                    default:
+                        Console.WriteLine("Opción no válida.");
+                        break;
+                }
+            }
         }
     }
 }
