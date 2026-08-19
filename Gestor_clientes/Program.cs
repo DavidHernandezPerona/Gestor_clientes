@@ -40,6 +40,18 @@
                         Console.WriteLine("Cliente añadido correctamente.");
                         break;
 
+                    case "2":
+                        if (clientes.Count == 0)
+                        {
+                            Console.WriteLine("No hay clientes registrados");
+                        }
+                        else
+                        {
+                            foreach (Cliente c in clientes)
+                                Console.WriteLine(c);
+                        }
+                        break;
+
                     case "5":
                         salir = true;
                         break;
