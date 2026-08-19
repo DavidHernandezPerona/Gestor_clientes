@@ -52,6 +52,31 @@
                         }
                         break;
 
+                    case "4":
+                        Console.Write("Introduce el Id del cliente a eliminar: ");
+                        string inputId = Console.ReadLine();
+                        int idBuscado = int.Parse(inputId);
+
+                        Cliente clienteAEliminar = null;
+                        foreach (Cliente c in clientes)
+                        {
+                            if (c.Id == idBuscado)
+                            {
+                                clienteAEliminar = c;
+                            }
+                        }
+
+                        if (clienteAEliminar == null)
+                        {
+                            Console.WriteLine("No se ha encontrado ningún cliente con ese Id.");
+                        }
+                        else
+                        {
+                            clientes.Remove(clienteAEliminar);
+                            Console.WriteLine("Cliente eliminado correctamente.");
+                        }
+                        break;
+
                     case "5":
                         salir = true;
                         break;
