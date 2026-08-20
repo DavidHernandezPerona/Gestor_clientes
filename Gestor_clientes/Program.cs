@@ -22,22 +22,29 @@
                 switch (opcion)
                 {
                     case "1":
-                        Console.Write("Nombre: ");
-                        string nombre = Console.ReadLine();
+                        try
+                        {
+                            Console.Write("Nombre: ");
+                            string nombre = Console.ReadLine();
 
-                        Console.Write("Apellidos: ");
-                        string apellidos = Console.ReadLine();
+                            Console.Write("Apellidos: ");
+                            string apellidos = Console.ReadLine();
 
-                        Console.Write("Teléfono: ");
-                        string telefono = Console.ReadLine();
+                            Console.Write("Teléfono: ");
+                            string telefono = Console.ReadLine();
 
-                        Console.Write("Email: ");
-                        string email = Console.ReadLine();
+                            Console.Write("Email: ");
+                            string email = Console.ReadLine();
 
-                        Cliente nuevoCliente = new Cliente(clientes.Count + 1, nombre, apellidos, telefono, email, DateTime.Now);
-                        clientes.Add(nuevoCliente);
+                            Cliente nuevoCliente = new Cliente(clientes.Count + 1, nombre, apellidos, telefono, email, DateTime.Now);
+                            clientes.Add(nuevoCliente);
 
-                        Console.WriteLine("Cliente añadido correctamente.");
+                            Console.WriteLine("Cliente añadido correctamente.");
+                        }
+                        catch (ArgumentException ex)
+                        {
+                            Console.WriteLine($"Error en los datos: {ex.Message}");
+                        }
                         break;
 
                     case "2":
