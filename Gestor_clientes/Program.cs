@@ -53,63 +53,82 @@
                         break;
 
                     case "3":
-                        Console.Write("Introduce el Id del cliente a modificar: ");
-                        string inputIdMod = Console.ReadLine();
-                        int idBuscadoMod = int.Parse(inputIdMod);
-
-                        Cliente clienteAModificar = null;
-                        foreach (Cliente c in clientes)
+                        try
                         {
-                            if (c.Id == idBuscadoMod)
+                            Console.Write("Introduce el Id del cliente a modificar: ");
+                            string inputIdMod = Console.ReadLine();
+                            int idBuscadoMod = int.Parse(inputIdMod);
+
+                            Cliente clienteAModificar = null;
+                            foreach (Cliente c in clientes)
                             {
-                                clienteAModificar = c;
+                                if (c.Id == idBuscadoMod)
+                                {
+                                    clienteAModificar = c;
+                                }
+                            }
+
+                            if (clienteAModificar == null)
+                            {
+                                Console.WriteLine("No se ha encontrado ningún cliente con ese Id.");
+                            }
+                            else
+                            {
+                                Console.Write("Nuevo nombre: ");
+                                clienteAModificar.Nombre = Console.ReadLine();
+
+                                Console.Write("Nuevos apellidos: ");
+                                clienteAModificar.Apellidos = Console.ReadLine();
+
+                                Console.Write("Nuevo teléfono: ");
+                                clienteAModificar.Telefono = Console.ReadLine();
+
+                                Console.Write("Nuevo email: ");
+                                clienteAModificar.Email = Console.ReadLine();
+
+                                Console.WriteLine("Cliente modificado correctamente.");
                             }
                         }
-
-                        if (clienteAModificar == null)
+                        catch (FormatException)
                         {
-                            Console.WriteLine("No se ha encontrado ningún cliente con ese Id.");
+                            Console.WriteLine("Debes introducir un número válido de Id.");
                         }
-                        else
+                        catch (ArgumentException ex)
                         {
-                            Console.Write("Nuevo nombre: ");
-                            clienteAModificar.Nombre = Console.ReadLine();
-
-                            Console.Write("Nuevos apellidos: ");
-                            clienteAModificar.Apellidos = Console.ReadLine();
-
-                            Console.Write("Nuevo teléfono: ");
-                            clienteAModificar.Telefono = Console.ReadLine();
-
-                            Console.Write("Nuevo email: ");
-                            clienteAModificar.Email = Console.ReadLine();
-
-                            Console.WriteLine("Cliente modificado correctamente.");
+                            Console.WriteLine($"Error en los datos: {ex.Message}");
                         }
                         break;
 
                     case "4":
                         Console.Write("Introduce el Id del cliente a eliminar: ");
                         string inputId = Console.ReadLine();
-                        int idBuscado = int.Parse(inputId);
 
-                        Cliente clienteAEliminar = null;
-                        foreach (Cliente c in clientes)
+                        try
                         {
-                            if (c.Id == idBuscado)
+                            int idBuscado = int.Parse(inputId);
+
+                            Cliente clienteAEliminar = null;
+                            foreach (Cliente c in clientes)
                             {
-                                clienteAEliminar = c;
+                                if (c.Id == idBuscado)
+                                {
+                                    clienteAEliminar = c;
+                                }
+                            }
+
+                            if (clienteAEliminar == null)
+                            {
+                                Console.WriteLine("No se ha encontrado ningún cliente con ese Id.");
+                            }
+                            else
+                            {
+                                clientes.Remove(clienteAEliminar);
+                                Console.WriteLine("Cliente eliminado correctamente.");
                             }
                         }
-
-                        if (clienteAEliminar == null)
+                        catch (FormatException)
                         {
-                            Console.WriteLine("No se ha encontrado ningún cliente con ese Id.");
-                        }
-                        else
-                        {
-                            clientes.Remove(clienteAEliminar);
-                            Console.WriteLine("Cliente eliminado correctamente.");
+                            Console.WriteLine("Debes introducir un número válido de Id.");
                         }
                         break;
 
