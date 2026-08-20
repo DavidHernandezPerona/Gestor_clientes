@@ -52,6 +52,42 @@
                         }
                         break;
 
+                    case "3":
+                        Console.Write("Introduce el Id del cliente a modificar: ");
+                        string inputIdMod = Console.ReadLine();
+                        int idBuscadoMod = int.Parse(inputIdMod);
+
+                        Cliente clienteAModificar = null;
+                        foreach (Cliente c in clientes)
+                        {
+                            if (c.Id == idBuscadoMod)
+                            {
+                                clienteAModificar = c;
+                            }
+                        }
+
+                        if (clienteAModificar == null)
+                        {
+                            Console.WriteLine("No se ha encontrado ningún cliente con ese Id.");
+                        }
+                        else
+                        {
+                            Console.Write("Nuevo nombre: ");
+                            clienteAModificar.Nombre = Console.ReadLine();
+
+                            Console.Write("Nuevos apellidos: ");
+                            clienteAModificar.Apellidos = Console.ReadLine();
+
+                            Console.Write("Nuevo teléfono: ");
+                            clienteAModificar.Telefono = Console.ReadLine();
+
+                            Console.Write("Nuevo email: ");
+                            clienteAModificar.Email = Console.ReadLine();
+
+                            Console.WriteLine("Cliente modificado correctamente.");
+                        }
+                        break;
+
                     case "4":
                         Console.Write("Introduce el Id del cliente a eliminar: ");
                         string inputId = Console.ReadLine();
