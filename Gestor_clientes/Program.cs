@@ -4,7 +4,7 @@
     {
         private static void Main(string[] args)
         {
-            List<Cliente> clientes = new List<Cliente>();
+            ClienteRepositorio repositorio = new ClienteRepositorio();
             bool salir = false;
 
             while (!salir)
@@ -36,8 +36,8 @@
                             Console.Write("Email: ");
                             string email = Console.ReadLine();
 
-                            Cliente nuevoCliente = new Cliente(clientes.Count + 1, nombre, apellidos, telefono, email, DateTime.Now);
-                            clientes.Add(nuevoCliente);
+                            Cliente nuevoCliente = new Cliente(repositorio.Listar().Count + 1, nombre, apellidos, telefono, email, DateTime.Now);
+                            repositorio.Agregar(nuevoCliente);
 
                             Console.WriteLine("Cliente añadido correctamente.");
                         }
@@ -48,14 +48,17 @@
                         break;
 
                     case "2":
-                        if (clientes.Count == 0)
+                        List<Cliente> listaClientes = repositorio.Listar();
+                        if (listaClientes.Count == 0)
                         {
-                            Console.WriteLine("No hay clientes registrados");
+                            Console.WriteLine("No hay clientes registrados.");
                         }
                         else
                         {
-                            foreach (Cliente c in clientes)
+                            foreach (Cliente c in listaClientes)
+                            {
                                 Console.WriteLine(c);
+                            }
                         }
                         break;
 
@@ -66,34 +69,27 @@
                             string inputIdMod = Console.ReadLine();
                             int idBuscadoMod = int.Parse(inputIdMod);
 
-                            Cliente clienteAModificar = null;
-                            foreach (Cliente c in clientes)
-                            {
-                                if (c.Id == idBuscadoMod)
-                                {
-                                    clienteAModificar = c;
-                                }
-                            }
+                            Console.Write("Nuevo nombre: ");
+                            string nuevoNombre = Console.ReadLine();
 
-                            if (clienteAModificar == null)
+                            Console.Write("Nuevos apellidos: ");
+                            string nuevoApellidos = Console.ReadLine();
+
+                            Console.Write("Nuevo teléfono: ");
+                            string nuevoTelefono = Console.ReadLine();
+
+                            Console.Write("Nuevo email: ");
+                            string nuevoEmail = Console.ReadLine();
+
+                            bool modificado = repositorio.Modificar(idBuscadoMod, nuevoNombre, nuevoApellidos, nuevoTelefono, nuevoEmail);
+
+                            if (modificado)
                             {
-                                Console.WriteLine("No se ha encontrado ningún cliente con ese Id.");
+                                Console.WriteLine("Cliente modificado correctamente.");
                             }
                             else
                             {
-                                Console.Write("Nuevo nombre: ");
-                                clienteAModificar.Nombre = Console.ReadLine();
-
-                                Console.Write("Nuevos apellidos: ");
-                                clienteAModificar.Apellidos = Console.ReadLine();
-
-                                Console.Write("Nuevo teléfono: ");
-                                clienteAModificar.Telefono = Console.ReadLine();
-
-                                Console.Write("Nuevo email: ");
-                                clienteAModificar.Email = Console.ReadLine();
-
-                                Console.WriteLine("Cliente modificado correctamente.");
+                                Console.WriteLine("No se ha encontrado ningún cliente con ese Id.");
                             }
                         }
                         catch (FormatException)
@@ -107,30 +103,21 @@
                         break;
 
                     case "4":
-                        Console.Write("Introduce el Id del cliente a eliminar: ");
-                        string inputId = Console.ReadLine();
-
                         try
                         {
+                            Console.Write("Introduce el Id del cliente a eliminar: ");
+                            string inputId = Console.ReadLine();
                             int idBuscado = int.Parse(inputId);
 
-                            Cliente clienteAEliminar = null;
-                            foreach (Cliente c in clientes)
-                            {
-                                if (c.Id == idBuscado)
-                                {
-                                    clienteAEliminar = c;
-                                }
-                            }
+                            bool eliminado = repositorio.Eliminar(idBuscado);
 
-                            if (clienteAEliminar == null)
+                            if (eliminado)
                             {
-                                Console.WriteLine("No se ha encontrado ningún cliente con ese Id.");
+                                Console.WriteLine("Cliente eliminado correctamente.");
                             }
                             else
                             {
-                                clientes.Remove(clienteAEliminar);
-                                Console.WriteLine("Cliente eliminado correctamente.");
+                                Console.WriteLine("No se ha encontrado ningún cliente con ese Id.");
                             }
                         }
                         catch (FormatException)
