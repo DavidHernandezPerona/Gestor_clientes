@@ -1,0 +1,8 @@
+CREATE TABLE Clientes (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    Nombre NVARCHAR(100) NOT NULL,
+    Apellidos NVARCHAR(100) NOT NULL,
+    Telefono NVARCHAR(20) NOT NULL,
+    Email NVARCHAR(150) NOT NULL,
+    FechaAlta DATETIME NOT NULL
+);
