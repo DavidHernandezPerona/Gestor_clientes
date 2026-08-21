@@ -36,7 +36,7 @@
                             Console.Write("Email: ");
                             string email = Console.ReadLine();
 
-                            Cliente nuevoCliente = new Cliente(repositorio.Listar().Count + 1, nombre, apellidos, telefono, email, DateTime.Now);
+                            Cliente nuevoCliente = new Cliente(0, nombre, apellidos, telefono, email, DateTime.Now);
                             repositorio.Agregar(nuevoCliente);
 
                             Console.WriteLine("Cliente añadido correctamente.");
