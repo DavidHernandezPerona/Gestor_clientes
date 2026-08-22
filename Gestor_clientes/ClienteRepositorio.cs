@@ -59,39 +59,81 @@ namespace Gestor_clientes
         public Cliente Buscar(int id)
         {
             Cliente clienteEncontrado = null;
-            foreach (Cliente c in clientes)
+
+            using (SqlConnection conexion = new SqlConnection(cadenaConexion))
             {
-                if (c.Id == id)
+                conexion.Open();
+
+                string consulta = "SELECT Id, Nombre, Apellidos, Telefono, Email, FechaAlta FROM Clientes WHERE Id = @Id";
+                SqlCommand comando = new SqlCommand(consulta, conexion);
+                comando.Parameters.AddWithValue("@Id", id);
+
+                SqlDataReader lector = comando.ExecuteReader();
+
+                if (lector.Read())
                 {
-                    clienteEncontrado = c;
+                    int idLeido = lector.GetInt32(0);
+                    string nombre = lector.GetString(1);
+                    string apellidos = lector.GetString(2);
+                    string telefono = lector.GetString(3);
+                    string email = lector.GetString(4);
+                    DateTime fechaAlta = lector.GetDateTime(5);
+
+                    clienteEncontrado = new Cliente(idLeido, nombre, apellidos, telefono, email, fechaAlta);
                 }
             }
+
             return clienteEncontrado;
         }
 
         public bool Eliminar(int id)
         {
-            Cliente cliente = Buscar(id);
-            if (cliente == null)
+            bool eliminado = false;
+
+            using (SqlConnection conexion = new SqlConnection(cadenaConexion))
             {
-                return false;
+                conexion.Open();
+
+                string consulta = "DELETE FROM Clientes WHERE Id = @Id";
+                SqlCommand comando = new SqlCommand(consulta, conexion);
+                comando.Parameters.AddWithValue("@Id", id);
+
+                int filasAfectadas = comando.ExecuteNonQuery();
+
+                if (filasAfectadas > 0)
+                {
+                    eliminado = true;
+                }
             }
-            clientes.Remove(cliente);
-            return true;
+
+            return eliminado;
         }
 
         public bool Modificar(int id, string nombre, string apellidos, string telefono, string email)
         {
-            Cliente cliente = Buscar(id);
-            if (cliente == null)
+            bool modificado = false;
+
+            using (SqlConnection conexion = new SqlConnection(cadenaConexion))
             {
-                return false;
+                conexion.Open();
+
+                string consulta = "UPDATE Clientes SET Nombre = @Nombre, Apellidos = @Apellidos, Telefono = @Telefono, Email = @Email WHERE Id = @Id";
+                SqlCommand comando = new SqlCommand(consulta, conexion);
+                comando.Parameters.AddWithValue("@Nombre", nombre);
+                comando.Parameters.AddWithValue("@Apellidos", apellidos);
+                comando.Parameters.AddWithValue("@Telefono", telefono);
+                comando.Parameters.AddWithValue("@Email", email);
+                comando.Parameters.AddWithValue("@Id", id);
+
+                int filasAfectadas = comando.ExecuteNonQuery();
+
+                if (filasAfectadas > 0)
+                {
+                    modificado = true;
+                }
             }
-            cliente.Nombre = nombre;
-            cliente.Apellidos = apellidos;
-            cliente.Telefono = telefono;
-            cliente.Email = email;
-            return true;
+
+            return modificado;
         }
     }
 }
