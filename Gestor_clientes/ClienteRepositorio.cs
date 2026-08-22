@@ -28,7 +28,32 @@ namespace Gestor_clientes
 
         public List<Cliente> Listar()
         {
-            return clientes;
+            List<Cliente> listaClientes = new List<Cliente>();
+
+            using (SqlConnection conexion = new SqlConnection(cadenaConexion))
+            {
+                conexion.Open();
+
+                string consulta = "SELECT Id, Nombre, Apellidos, Telefono, Email, FechaAlta FROM Clientes";
+                SqlCommand comando = new SqlCommand(consulta, conexion);
+
+                SqlDataReader lector = comando.ExecuteReader();
+
+                while (lector.Read())
+                {
+                    int id = lector.GetInt32(0);
+                    string nombre = lector.GetString(1);
+                    string apellidos = lector.GetString(2);
+                    string telefono = lector.GetString(3);
+                    string email = lector.GetString(4);
+                    DateTime fechaAlta = lector.GetDateTime(5);
+
+                    Cliente cliente = new Cliente(id, nombre, apellidos, telefono, email, fechaAlta);
+                    listaClientes.Add(cliente);
+                }
+            }
+
+            return listaClientes;
         }
 
         public Cliente Buscar(int id)
