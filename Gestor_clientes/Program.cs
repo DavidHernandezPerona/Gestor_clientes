@@ -1,4 +1,6 @@
-﻿namespace Gestor_clientes
+﻿using Microsoft.Data.SqlClient;
+
+namespace Gestor_clientes
 {
     internal class Program
     {
@@ -45,20 +47,31 @@
                         {
                             Console.WriteLine($"Error en los datos: {ex.Message}");
                         }
+                        catch (SqlException)
+                        {
+                            Console.WriteLine("No se pudo conectar con la base de datos. Comprueba que SQL Server esté activo.");
+                        }
                         break;
 
                     case "2":
-                        List<Cliente> listaClientes = repositorio.Listar();
-                        if (listaClientes.Count == 0)
+                        try
                         {
-                            Console.WriteLine("No hay clientes registrados.");
-                        }
-                        else
-                        {
-                            foreach (Cliente c in listaClientes)
+                            List<Cliente> listaClientes = repositorio.Listar();
+                            if (listaClientes.Count == 0)
                             {
-                                Console.WriteLine(c);
+                                Console.WriteLine("No hay clientes registrados.");
                             }
+                            else
+                            {
+                                foreach (Cliente c in listaClientes)
+                                {
+                                    Console.WriteLine(c);
+                                }
+                            }
+                        }
+                        catch (SqlException)
+                        {
+                            Console.WriteLine("No se pudo conectar con la base de datos. Comprueba que SQL Server esté activo.");
                         }
                         break;
 
@@ -100,6 +113,11 @@
                         {
                             Console.WriteLine($"Error en los datos: {ex.Message}");
                         }
+                        catch (SqlException)
+                        {
+                            Console.WriteLine("No se pudo conectar con la base de datos. Comprueba que SQL Server esté activo.");
+                        }
+                        break;
                         break;
 
                     case "4":
@@ -123,6 +141,10 @@
                         catch (FormatException)
                         {
                             Console.WriteLine("Debes introducir un número válido de Id.");
+                        }
+                        catch (SqlException)
+                        {
+                            Console.WriteLine("No se pudo conectar con la base de datos. Comprueba que SQL Server esté activo.");
                         }
                         break;
 
